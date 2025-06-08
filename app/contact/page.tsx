@@ -1,25 +1,27 @@
 "use client";
-import { useState } from 'react';
+import { useState } from "react";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert('Thank you for your message! We will get back to you soon.');
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    alert("Thank you for your message! We will get back to you soon.");
+    setFormData({ name: "", email: "", subject: "", message: "" });
   };
 
   return (
@@ -39,31 +41,60 @@ export default function ContactPage() {
         <div className="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-2">
           {/* Contact Info */}
           <div className="bg-white rounded-lg shadow-lg p-8">
-            <h2 className="text-2xl font-bold text-green-800 mb-6">Contact Information</h2>
+            <h2 className="text-2xl font-bold text-green-800 mb-6">
+              Contact Information
+            </h2>
             <div className="space-y-4">
               <ContactItem icon="📧" title="Email" text="support@agrismart.com" />
               <ContactItem icon="📞" title="Phone" text="+1 (555) 123-4567" />
               <ContactItem
                 icon="📍"
                 title="Address"
-                text="123 Agricultural Innovation Center\nFarm Technology District\nGreen Valley, CA 90210"
+                text={`123 Agricultural Innovation Center
+Farm Technology District
+Green Valley, CA 90210`}
               />
               <ContactItem
                 icon="🕒"
                 title="Business Hours"
-                text="Mon-Fri: 9 AM - 6 PM\nSat: 10 AM - 4 PM\nSun: Closed"
+                text={`Mon-Fri: 9 AM - 6 PM
+Sat: 10 AM - 4 PM
+Sun: Closed`}
               />
             </div>
           </div>
 
           {/* Contact Form */}
           <div className="bg-white rounded-lg shadow-lg p-8">
-            <h2 className="text-2xl font-bold text-green-800 mb-6">Send us a Message</h2>
+            <h2 className="text-2xl font-bold text-green-800 mb-6">
+              Send us a Message
+            </h2>
             <form onSubmit={handleSubmit} className="space-y-6">
-              <TextInput label="Full Name" name="name" value={formData.name} onChange={handleInputChange} />
-              <TextInput label="Email Address" name="email" type="email" value={formData.email} onChange={handleInputChange} />
-              <SelectInput label="Subject" name="subject" value={formData.subject} onChange={handleInputChange} />
-              <TextAreaInput label="Message" name="message" value={formData.message} onChange={handleInputChange} />
+              <TextInput
+                label="Full Name"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+              />
+              <TextInput
+                label="Email Address"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleInputChange}
+              />
+              <SelectInput
+                label="Subject"
+                name="subject"
+                value={formData.subject}
+                onChange={handleInputChange}
+              />
+              <TextAreaInput
+                label="Message"
+                name="message"
+                value={formData.message}
+                onChange={handleInputChange}
+              />
               <button
                 type="submit"
                 className="w-full bg-green-600 text-white py-3 px-6 rounded-md hover:bg-green-700 transition-colors font-medium"
@@ -76,11 +107,25 @@ export default function ContactPage() {
 
         {/* Support Section */}
         <div className="mt-16 bg-white rounded-lg shadow-lg p-8">
-          <h2 className="text-2xl font-bold text-green-800 mb-6 text-center">Support & Resources</h2>
+          <h2 className="text-2xl font-bold text-green-800 mb-6 text-center">
+            Support & Resources
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <SupportCard icon="🛠️" title="Technical Support" text="Need help with our AI analyzer? Our technical support team is available to assist you." />
-            <SupportCard icon="🌱" title="Agricultural Consultation" text="Connect with our team of agricultural experts for personalized advice and farming strategies." />
-            <SupportCard icon="🤝" title="Partnership Opportunities" text="We welcome collaboration with innovative agricultural organizations." />
+            <SupportCard
+              icon="🛠️"
+              title="Technical Support"
+              text="Need help with our AI analyzer? Our technical support team is available to assist you."
+            />
+            <SupportCard
+              icon="🌱"
+              title="Agricultural Consultation"
+              text="Connect with our team of agricultural experts for personalized advice and farming strategies."
+            />
+            <SupportCard
+              icon="🤝"
+              title="Partnership Opportunities"
+              text="We welcome collaboration with innovative agricultural organizations."
+            />
           </div>
         </div>
       </div>
@@ -90,7 +135,15 @@ export default function ContactPage() {
 
 // 🔽 Reusable Components
 
-function ContactItem({ icon, title, text }: { icon: string; title: string; text: string }) {
+function ContactItem({
+  icon,
+  title,
+  text,
+}: {
+  icon: string;
+  title: string;
+  text: string;
+}) {
   return (
     <div className="flex items-start space-x-4">
       <div className="text-2xl">{icon}</div>
@@ -102,10 +155,25 @@ function ContactItem({ icon, title, text }: { icon: string; title: string; text:
   );
 }
 
-function TextInput({ label, name, type = 'text', value, onChange }: any) {
+function TextInput({
+  label,
+  name,
+  type = "text",
+  value,
+  onChange,
+}: {
+  label: string;
+  name: string;
+  type?: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}) {
   return (
     <div>
-      <label htmlFor={name} className="block text-sm font-medium text-gray-700 mb-2">
+      <label
+        htmlFor={name}
+        className="block text-sm font-medium text-gray-700 mb-2"
+      >
         {label}
       </label>
       <input
@@ -121,10 +189,23 @@ function TextInput({ label, name, type = 'text', value, onChange }: any) {
   );
 }
 
-function SelectInput({ label, name, value, onChange }: any) {
+function SelectInput({
+  label,
+  name,
+  value,
+  onChange,
+}: {
+  label: string;
+  name: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+}) {
   return (
     <div>
-      <label htmlFor={name} className="block text-sm font-medium text-gray-700 mb-2">
+      <label
+        htmlFor={name}
+        className="block text-sm font-medium text-gray-700 mb-2"
+      >
         {label}
       </label>
       <select
@@ -146,10 +227,23 @@ function SelectInput({ label, name, value, onChange }: any) {
   );
 }
 
-function TextAreaInput({ label, name, value, onChange }: any) {
+function TextAreaInput({
+  label,
+  name,
+  value,
+  onChange,
+}: {
+  label: string;
+  name: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+}) {
   return (
     <div>
-      <label htmlFor={name} className="block text-sm font-medium text-gray-700 mb-2">
+      <label
+        htmlFor={name}
+        className="block text-sm font-medium text-gray-700 mb-2"
+      >
         {label}
       </label>
       <textarea
@@ -166,7 +260,15 @@ function TextAreaInput({ label, name, value, onChange }: any) {
   );
 }
 
-function SupportCard({ icon, title, text }: { icon: string; title: string; text: string }) {
+function SupportCard({
+  icon,
+  title,
+  text,
+}: {
+  icon: string;
+  title: string;
+  text: string;
+}) {
   return (
     <div className="text-center">
       <div className="text-4xl mb-4">{icon}</div>
@@ -175,4 +277,4 @@ function SupportCard({ icon, title, text }: { icon: string; title: string; text:
     </div>
   );
 }
-//hi
+//k

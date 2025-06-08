@@ -116,10 +116,10 @@ export default function AnalyzerPage() {
               <h3 className="text-lg font-semibold mb-3">How it works:</h3>
               <ul className="space-y-3">
                 {[
-                  'Enter your soil parameters',
-                  'AI analyzes the data',
-                  'Get personalized recommendations',
-                  'Optimize your crop yield'
+                  "Enter your soil parameters",
+                  "AI analyzes the data",
+                  "Get personalized recommendations",
+                  "Optimize your crop yield"
                 ].map((step, index) => (
                   <li key={index} className="flex items-center text-green-100">
                     <span className="bg-green-700 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-3">
@@ -135,11 +135,11 @@ export default function AnalyzerPage() {
               <h3 className="text-lg font-semibold mb-3">Features:</h3>
               <ul className="space-y-2">
                 {[
-                  'Smart Soil Analysis',
-                  'Advanced AI Technology',
-                  'Data-Driven Results',
-                  'Expert Recommendations',
-                  'Quality Assurance'
+                  "Smart Soil Analysis",
+                  "Advanced AI Technology",
+                  "Data-Driven Results",
+                  "Expert Recommendations",
+                  "Quality Assurance"
                 ].map((feature, index) => (
                   <li key={index} className="flex items-center text-green-100">
                     <span className="text-green-300 mr-3">✓</span>
@@ -291,8 +291,8 @@ export default function AnalyzerPage() {
                   disabled={isAnalyzing}
                   className={`w-full py-3 px-6 rounded-md font-medium text-lg transition-all duration-300 ${
                     isAnalyzing 
-                      ? 'bg-gray-400 cursor-not-allowed' 
-                      : 'bg-green-600 hover:bg-green-700 transform hover:scale-105'
+                      ? "bg-gray-400 cursor-not-allowed" 
+                      : "bg-green-600 hover:bg-green-700 transform hover:scale-105"
                   } text-white`}
                 >
                   {isAnalyzing ? (
@@ -304,7 +304,7 @@ export default function AnalyzerPage() {
                       Analyzing Soil Data...
                     </span>
                   ) : (
-                    '🔍 Analyze & Get Recommendations'
+                    "🔍 Analyze & Get Recommendations"
                   )}
                 </button>
               </form>

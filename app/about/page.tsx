@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'About Us - AgriSmart',
-  description: 'Learn about AgriSmart\'s mission to revolutionize agriculture through intelligent AI-powered fertilizer recommendations.',
+  title: "About Us - AgriSmart",
+  description: "Learn about AgriSmart\'s mission to revolutionize agriculture through intelligent AI-powered fertilizer recommendations.",
 };
 
 export default function AboutPage() {

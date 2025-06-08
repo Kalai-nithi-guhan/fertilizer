@@ -28,8 +28,8 @@ export default function Navigation() {
                 href={item.href}
                 className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                   pathname === item.href
-                    ? 'bg-green-700 text-white'
-                    : 'text-green-100 hover:bg-green-700 hover:text-white'
+                    ? "bg-green-700 text-white"
+                    : "text-green-100 hover:bg-green-700 hover:text-white"
                 }`}
               >
                 {item.label}

@@ -175,3 +175,4 @@ function SupportCard({ icon, title, text }: { icon: string; title: string; text:
     </div>
   );
 }
+//hi

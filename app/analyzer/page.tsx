@@ -33,13 +33,18 @@ export default function AnalyzerPage() {
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
 
+  // Properly typed keys of formData for input mapping
+  const soilTypes = ["loamy", "clay", "sandy", "silt", "peaty", "chalky"];
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const name = e.target.name as keyof FormData;
+    const value = e.target.value;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const generateRecommendation = (data: FormData): AnalysisResult => {
@@ -55,19 +60,30 @@ export default function AnalyzerPage() {
     let applicationRate = "200-300 kg/hectare";
     let additionalNotes = "Apply during early growing season.";
 
+    // Example usage of temp, humidity, moisture in notes
+    if (!isNaN(temp) && temp > 35) {
+      additionalNotes += " High temperature stress expected.";
+    }
+    if (!isNaN(humidity) && humidity < 40) {
+      additionalNotes += " Low humidity may require irrigation.";
+    }
+    if (!isNaN(moisture) && moisture < 30) {
+      additionalNotes += " Soil moisture is low; consider watering.";
+    }
+
     if (n < 50) {
       recommendation = "Nitrogen-rich fertilizer recommended";
       npkRatio = "20-10-10";
-      additionalNotes =
-        "Low nitrogen levels detected. Consider organic nitrogen sources.";
+      additionalNotes +=
+        " Low nitrogen levels detected. Consider organic nitrogen sources.";
     } else if (p < 30) {
       recommendation = "Phosphorus-enhanced fertilizer";
       npkRatio = "10-20-10";
-      additionalNotes = "Phosphorus deficiency may affect root development.";
+      additionalNotes += " Phosphorus deficiency may affect root development.";
     } else if (k < 100) {
       recommendation = "Potassium-rich fertilizer";
       npkRatio = "10-10-20";
-      additionalNotes = "Potassium boost needed for fruit and grain development.";
+      additionalNotes += " Potassium boost needed for fruit and grain development.";
     }
 
     if (data.soilType === "sandy") {
@@ -84,7 +100,7 @@ export default function AnalyzerPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsAnalyzing(true);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 2000)); // simulate analysis delay
     const analysisResult = generateRecommendation(formData);
     setResult(analysisResult);
     setIsAnalyzing(false);
@@ -175,7 +191,7 @@ export default function AnalyzerPage() {
                       <input
                         type="number"
                         name={name}
-                        value={(formData as any)[name]}
+                        value={formData[name as keyof FormData]}
                         onChange={handleInputChange}
                         step="0.1"
                         required
@@ -197,7 +213,7 @@ export default function AnalyzerPage() {
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                     >
                       <option value="">Select soil type</option>
-                      {["loamy", "clay", "sandy", "silt", "peaty", "chalky"].map((type) => (
+                      {soilTypes.map((type) => (
                         <option key={type} value={type}>
                           {type.charAt(0).toUpperCase() + type.slice(1)}
                         </option>
@@ -217,7 +233,7 @@ export default function AnalyzerPage() {
                       <input
                         type="number"
                         name={name}
-                        value={(formData as any)[name]}
+                        value={formData[name as keyof FormData]}
                         onChange={handleInputChange}
                         step="0.1"
                         required

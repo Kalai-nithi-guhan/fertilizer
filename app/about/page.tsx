@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: "About Us - AgriSmart",
-  description: "Learn about AgriSmart\'s mission to revolutionize agriculture through intelligent AI-powered fertilizer recommendations.",
+  description: "Learn about AgriSmart's mission to revolutionize agriculture through intelligent AI-powered fertilizer recommendations.",
 };
 
 export default function AboutPage() {
@@ -22,7 +22,7 @@ export default function AboutPage() {
           <div className="bg-white rounded-lg shadow-lg p-8">
             <h2 className="text-2xl font-bold text-green-800 mb-4">Our Mission</h2>
             <p className="text-gray-600 leading-relaxed">
-              At AgriSmart, we're dedicated to empowering farmers with cutting-edge AI technology 
+              At AgriSmart, we&apos;re dedicated to empowering farmers with cutting-edge AI technology 
               to make informed decisions about fertilizer usage. Our mission is to increase crop 
               yields while promoting sustainable farming practices through data-driven insights.
             </p>
@@ -49,7 +49,7 @@ export default function AboutPage() {
           <div className="bg-white rounded-lg shadow-lg p-8">
             <h2 className="text-2xl font-bold text-green-800 mb-4">Our Impact</h2>
             <p className="text-gray-600 leading-relaxed">
-              Since our launch, we've helped thousands of farmers optimize their fertilizer usage, 
+              Since our launch, we&apos;ve helped thousands of farmers optimize their fertilizer usage, 
               resulting in increased crop yields, reduced environmental impact, and improved 
               profitability for farming operations worldwide.
             </p>
@@ -63,7 +63,7 @@ export default function AboutPage() {
               Our Team
             </h2>
             <p className="mt-4 text-lg text-gray-600">
-              Meet the experts behind AgriSmart's innovative solutions
+              Meet the experts behind AgriSmart&apos;s innovative solutions
             </p>
           </div>
 
@@ -82,7 +82,7 @@ export default function AboutPage() {
               {
                 name: "Emily Rodriguez",
                 role: "Sustainability Expert",
-                description: "Environmental science background focused on sustainable farming"
+                description: "Environmental science Background focused on sustainable farming"
               }
             ].map((member, index) => (
               <div key={index} className="bg-white rounded-lg shadow-lg p-6 text-center">

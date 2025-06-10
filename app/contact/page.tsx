@@ -1,7 +1,9 @@
-"use client";
-import { useState } from "react";
+"use client"; // This directive is important for Next.js App Router to make the component interactive
+
+import { useState } from "react"; // For managing form input states
 
 export default function ContactPage() {
+  // State to hold form data
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -9,272 +11,146 @@ export default function ContactPage() {
     message: "",
   });
 
+  // Handler for all input changes
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
+    // Update the corresponding field in formData state
     setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
+      ...formData, // Keep existing data
+      [e.target.name]: e.target.value, // Update the specific field
     });
   };
 
+  // Handler for form submission
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent default browser form submission
+    // Simple alert for demonstration. In a real app, you'd send this data to a server.
     alert("Thank you for your message! We will get back to you soon.");
+    // Clear the form after submission
     setFormData({ name: "", email: "", subject: "", message: "" });
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Heading */}
-        <div className="text-center">
-          <h1 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+    // min-h-screen is removed as we want it to fit without scrolling.
+    // py-6 and px-4 for reduced overall padding
+    <div className="bg-gray-50 py-6 px-4 sm:px-6 lg:px-8 flex items-center justify-center min-h-screen">
+      {/* max-w-xl to keep it compact horizontally */}
+      <div className="max-w-xl w-full mx-auto">
+
+        {/* Page Heading - reduced margin-bottom */}
+        <div className="text-center mb-6">
+          <h1 className="text-2xl font-extrabold text-gray-900 sm:text-3xl">
             Contact Us
           </h1>
-          <p className="mt-4 text-lg text-gray-600">
-            Get in touch with our team of agricultural experts
+          <p className="mt-1 text-base text-gray-600">
+            Get in touch with our team
           </p>
         </div>
 
-        {/* Form & Info Section */}
-        <div className="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-2">
-          {/* Contact Info */}
-          <div className="bg-white rounded-lg shadow-lg p-8">
-            <h2 className="text-2xl font-bold text-green-800 mb-6">
-              Contact Information
-            </h2>
-            <div className="space-y-4">
-              <ContactItem icon="📧" title="Email" text="support@agrismart.com" />
-              <ContactItem icon="📞" title="Phone" text="+1 (555) 123-4567" />
-              <ContactItem
-                icon="📍"
-                title="Address"
-                text={`123 Agricultural Innovation Center
-Farm Technology District
-Green Valley, CA 90210`}
-              />
-              <ContactItem
-                icon="🕒"
-                title="Business Hours"
-                text={`Mon-Fri: 9 AM - 6 PM
-Sat: 10 AM - 4 PM
-Sun: Closed`}
-              />
-            </div>
-          </div>
+        {/* Contact Form Section - reduced padding */}
+        <div className="bg-white rounded-lg shadow-lg p-6">
+          <h2 className="text-xl font-bold text-green-800 mb-4 text-center">
+            Send us a Message
+          </h2>
+          {/* Reduced vertical space between form elements (space-y-4) */}
+          <form onSubmit={handleSubmit} className="space-y-4">
 
-          {/* Contact Form */}
-          <div className="bg-white rounded-lg shadow-lg p-8">
-            <h2 className="text-2xl font-bold text-green-800 mb-6">
-              Send us a Message
-            </h2>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <TextInput
-                label="Full Name"
+            {/* Full Name Input - reduced margin-bottom */}
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-0.5">
+                Full Name
+              </label>
+              <input
+                type="text"
+                id="name"
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
+                required
+                className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
               />
-              <TextInput
-                label="Email Address"
-                name="email"
+            </div>
+
+            {/* Email Address Input - reduced margin-bottom */}
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-0.5">
+                Email Address
+              </label>
+              <input
                 type="email"
+                id="email"
+                name="email"
                 value={formData.email}
                 onChange={handleInputChange}
+                required
+                className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
               />
-              <SelectInput
-                label="Subject"
+            </div>
+
+            {/* Subject Select Input - reduced margin-bottom */}
+            <div>
+              <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-0.5">
+                Subject
+              </label>
+              <select
+                id="subject"
                 name="subject"
                 value={formData.subject}
                 onChange={handleInputChange}
-              />
-              <TextAreaInput
-                label="Message"
+                required
+                className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
+              >
+                <option value="">Select a subject</option>
+                <option value="technical-support">Technical Support</option>
+                <option value="consultation">General Inquiry</option>
+                <option value="feedback">Feedback</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            {/* Message Textarea - reduced rows and margin-bottom */}
+            <div>
+              <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-0.5">
+                Message
+              </label>
+              <textarea
+                id="message"
                 name="message"
+                rows={3} // Significantly reduced rows to save vertical space
                 value={formData.message}
                 onChange={handleInputChange}
+                required
+                placeholder="Tell us how we can help you..."
+                className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
               />
-              <button
-                type="submit"
-                className="w-full bg-green-600 text-white py-3 px-6 rounded-md hover:bg-green-700 transition-colors font-medium"
-              >
-                Send Message
-              </button>
-            </form>
-          </div>
+            </div>
+
+            {/* Submit Button - reduced padding */}
+            <button
+              type="submit"
+              className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition-colors font-medium text-base"
+            >
+              Send Message
+            </button>
+          </form>
         </div>
 
-        {/* Support Section */}
-        <div className="mt-16 bg-white rounded-lg shadow-lg p-8">
-          <h2 className="text-2xl font-bold text-green-800 mb-6 text-center">
-            Support & Resources
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <SupportCard
-              icon="🛠️"
-              title="Technical Support"
-              text="Need help with our AI analyzer? Our technical support team is available to assist you."
-            />
-            <SupportCard
-              icon="🌱"
-              title="Agricultural Consultation"
-              text="Connect with our team of agricultural experts for personalized advice and farming strategies."
-            />
-            <SupportCard
-              icon="🤝"
-              title="Partnership Opportunities"
-              text="We welcome collaboration with innovative agricultural organizations."
-            />
-          </div>
+        {/* Simple Contact Information Section (Optional) - reduced padding and margins */}
+        <div className="mt-6 bg-white rounded-lg shadow-lg p-6 text-center text-sm">
+            <h2 className="text-lg font-bold text-green-800 mb-2">Our Details</h2>
+            <p className="text-gray-600">
+                Email: <span className="font-semibold">support@agrismart.com</span>
+            </p>
+            <p className="text-gray-600 mt-1">
+                Phone: <span className="font-semibold">+1 (555) 123-4567</span>
+            </p>
+            <p className="text-gray-600 mt-1">
+                Address: 123 Farm Tech Lane, Green Valley, CA
+            </p>
         </div>
+
       </div>
     </div>
   );
 }
-
-// 🔽 Reusable Components
-
-function ContactItem({
-  icon,
-  title,
-  text,
-}: {
-  icon: string;
-  title: string;
-  text: string;
-}) {
-  return (
-    <div className="flex items-start space-x-4">
-      <div className="text-2xl">{icon}</div>
-      <div>
-        <p className="font-semibold text-gray-900">{title}</p>
-        <p className="text-gray-600 whitespace-pre-line">{text}</p>
-      </div>
-    </div>
-  );
-}
-
-function TextInput({
-  label,
-  name,
-  type = "text",
-  value,
-  onChange,
-}: {
-  label: string;
-  name: string;
-  type?: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}) {
-  return (
-    <div>
-      <label
-        htmlFor={name}
-        className="block text-sm font-medium text-gray-700 mb-2"
-      >
-        {label}
-      </label>
-      <input
-        type={type}
-        id={name}
-        name={name}
-        value={value}
-        onChange={onChange}
-        required
-        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
-      />
-    </div>
-  );
-}
-
-function SelectInput({
-  label,
-  name,
-  value,
-  onChange,
-}: {
-  label: string;
-  name: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-}) {
-  return (
-    <div>
-      <label
-        htmlFor={name}
-        className="block text-sm font-medium text-gray-700 mb-2"
-      >
-        {label}
-      </label>
-      <select
-        id={name}
-        name={name}
-        value={value}
-        onChange={onChange}
-        required
-        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
-      >
-        <option value="">Select a subject</option>
-        <option value="technical-support">Technical Support</option>
-        <option value="consultation">Agricultural Consultation</option>
-        <option value="partnership">Partnership Inquiry</option>
-        <option value="feedback">Feedback</option>
-        <option value="other">Other</option>
-      </select>
-    </div>
-  );
-}
-
-function TextAreaInput({
-  label,
-  name,
-  value,
-  onChange,
-}: {
-  label: string;
-  name: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-}) {
-  return (
-    <div>
-      <label
-        htmlFor={name}
-        className="block text-sm font-medium text-gray-700 mb-2"
-      >
-        {label}
-      </label>
-      <textarea
-        id={name}
-        name={name}
-        rows={5}
-        value={value}
-        onChange={onChange}
-        required
-        placeholder="Tell us how we can help you..."
-        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
-      />
-    </div>
-  );
-}
-
-function SupportCard({
-  icon,
-  title,
-  text,
-}: {
-  icon: string;
-  title: string;
-  text: string;
-}) {
-  return (
-    <div className="text-center">
-      <div className="text-4xl mb-4">{icon}</div>
-      <h3 className="font-semibold text-gray-900 mb-2">{title}</h3>
-      <p className="text-gray-600 text-sm">{text}</p>
-    </div>
-  );
-}
-//k

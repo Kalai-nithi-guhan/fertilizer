@@ -13,25 +13,24 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create prompt
+    // Prompt for OpenAI-like API
     const prompt = `
-      As an agricultural expert, provide fertilizer recommendations for the following conditions:
-      Soil Type: ${soilType}
-      Crop Type: ${cropType}
-      Season: ${season}
-      Location: ${location || 'Not specified'}
-      Current Nutrient Levels: ${nutrients || 'Not specified'}
+As an agricultural expert, provide fertilizer recommendations for the following conditions:
+- Soil Type: ${soilType}
+- Crop Type: ${cropType}
+- Season: ${season}
+- Location: ${location || 'Not specified'}
+- Nutrient Info: ${nutrients || 'Not specified'}
 
-      Please provide:
-      1. Specific fertilizer recommendations with NPK ratios
-      2. Application timing and frequency
-      3. Dosage recommendations per acre/hectare
-      4. Any additional soil management tips
+Please respond with:
+1. Specific fertilizer types and NPK ratios
+2. Application frequency and best timing
+3. Dosage (kg per acre/hectare)
+4. Any additional soil improvement advice
 
-      Format the response in a clear, structured manner suitable for farmers.
-    `;
+Keep it short, structured, and suitable for farmers. Avoid technical jargon.
+`;
 
-    // Call OpenRouter API via fetch
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -58,25 +57,34 @@ export async function POST(request: NextRequest) {
     const data = await response.json();
 
     if (!response.ok) {
-      return NextResponse.json({ error: data.error?.message || 'API call failed' }, { status: response.status });
+      return NextResponse.json(
+        { error: data.error?.message || 'AI API request failed' },
+        { status: response.status }
+      );
     }
 
-    // Clean **bold** markdown
-    const raw = data.choices[0]?.message?.content || '';
-    const cleanedRecommendation = raw.replace(/\*\*(.*?)\*\*/g, '$1');  // Removes **bold** markdown
+    // Clean **bold** markdown and ``` blocks if any
+    const rawContent = data.choices?.[0]?.message?.content || '';
+    const cleanedContent = rawContent
+      .replace(/\*\*(.*?)\*\*/g, '$1') // Remove bold
+      .replace(/```[\s\S]*?```/g, '') // Remove code blocks
+      .trim();
 
     return NextResponse.json({
       success: true,
-      recommendation: cleanedRecommendation,
+      recommendation: cleanedContent,
       inputData: { soilType, cropType, season, location, nutrients }
     });
 
-  } catch (error: any) {
-    console.error("Error calling OpenRouter:", error);
+  } catch (error: unknown) {
+    console.error("Error during fertilizer recommendation:", error);
     return NextResponse.json(
       {
         error: "Failed to get fertilizer recommendation",
-        details: process.env.NODE_ENV === "development" ? error.message : undefined,
+        details:
+          process.env.NODE_ENV === "development" && error instanceof Error
+            ? error.message
+            : undefined
       },
       { status: 500 }
     );
@@ -85,8 +93,8 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   return NextResponse.json({
-    message: 'Fertilizer API is Working',
+    message: '✅ Fertilizer Recommendation API is live',
     timestamp: new Date().toISOString(),
-    env_check: !!process.env.OPENROUTER_API_KEY
+    envCheck: !!process.env.OPENROUTER_API_KEY
   });
 }

@@ -1,7 +1,6 @@
-// app/analyzer/page.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 interface FormData {
   soilType: string;
@@ -24,8 +23,9 @@ export default function Analyzer() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
 
-  // Handle input changes
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -33,7 +33,6 @@ export default function Analyzer() {
     }));
   };
 
-  // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -41,8 +40,6 @@ export default function Analyzer() {
     setRecommendation('');
 
     try {
-      console.log('Sending request with data:', formData);
-      
       const response = await fetch('/api/fertilizer-recommend', {
         method: 'POST',
         headers: {
@@ -51,33 +48,30 @@ export default function Analyzer() {
         body: JSON.stringify(formData)
       });
 
-      console.log('Response status:', response.status);
-
-      // Check if response is JSON
       const contentType = response.headers.get('content-type');
       if (!contentType || !contentType.includes('application/json')) {
         const text = await response.text();
-        console.error('Non-JSON response:', text);
         throw new Error('Server returned HTML instead of JSON. Check your API route setup.');
       }
 
       const data = await response.json();
-      console.log('API Response:', data);
 
       if (!response.ok) {
         throw new Error(data.error || `HTTP error! status: ${response.status}`);
       }
 
       setRecommendation(data.recommendation);
-    } catch (err: any) {
-      console.error('Request failed:', err);
-      setError(err.message || 'Failed to get recommendation');
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message || 'Failed to get recommendation');
+      } else {
+        setError('An unknown error occurred');
+      }
     } finally {
       setLoading(false);
     }
   };
 
-  // Reset form
   const resetForm = () => {
     setFormData({
       soilType: '',
@@ -110,6 +104,7 @@ export default function Analyzer() {
             </h2>
             
             <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Soil Type */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Soil Type *
@@ -131,6 +126,7 @@ export default function Analyzer() {
                 </select>
               </div>
 
+              {/* Crop Type */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Crop Type *
@@ -156,6 +152,7 @@ export default function Analyzer() {
                 </select>
               </div>
 
+              {/* Season */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Growing Season *
@@ -175,6 +172,7 @@ export default function Analyzer() {
                 </select>
               </div>
 
+              {/* Location */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   📍 Location (Optional)
@@ -189,6 +187,7 @@ export default function Analyzer() {
                 />
               </div>
 
+              {/* Nutrients */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   🧪 Current Soil Nutrient Levels (Optional)
@@ -203,6 +202,7 @@ export default function Analyzer() {
                 />
               </div>
 
+              {/* Buttons */}
               <div className="flex space-x-4 pt-4">
                 <button
                   type="submit"
@@ -223,7 +223,7 @@ export default function Analyzer() {
             </form>
           </div>
 
-          {/* Results Display */}
+          {/* Recommendation Output */}
           <div className="bg-white rounded-lg shadow-lg p-6">
             <h2 className="text-2xl font-semibold text-gray-800 mb-6">
               🤖 AI Recommendation
@@ -268,7 +268,9 @@ export default function Analyzer() {
               <div className="text-center py-12 text-gray-500">
                 <div className="text-6xl mb-4">🤖</div>
                 <p className="text-lg mb-2">Ready to help!</p>
-                <p>Fill out the form and click "Get AI Recommendation" to receive personalized fertilizer advice powered by OpenAI.</p>
+                <p>
+                  Fill out the form and click &quot;Get AI Recommendation&quot; to receive personalized fertilizer advice powered by OpenAI.
+                </p>
               </div>
             )}
           </div>

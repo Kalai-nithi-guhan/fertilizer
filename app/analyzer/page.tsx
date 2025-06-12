@@ -50,7 +50,7 @@ export default function Analyzer() {
 
       const contentType = response.headers.get('content-type');
       if (!contentType || !contentType.includes('application/json')) {
-        const text = await response.text();
+        // Removed unused 'text' variable to fix ESLint error
         throw new Error('Server returned HTML instead of JSON. Check your API route setup.');
       }
 
@@ -102,7 +102,7 @@ export default function Analyzer() {
             <h2 className="text-2xl font-semibold text-gray-800 mb-6">
               📋 Crop & Soil Information
             </h2>
-            
+
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Soil Type */}
               <div>
@@ -211,7 +211,7 @@ export default function Analyzer() {
                 >
                   {loading ? '🔄 Analyzing with AI...' : '🚀 Get AI Recommendation'}
                 </button>
-                
+
                 <button
                   type="button"
                   onClick={resetForm}

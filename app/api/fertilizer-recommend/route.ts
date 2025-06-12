@@ -85,7 +85,7 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   return NextResponse.json({
-    message: 'Fertilizer API is working',
+    message: 'Fertilizer API is Working',
     timestamp: new Date().toISOString(),
     env_check: !!process.env.OPENROUTER_API_KEY
   });

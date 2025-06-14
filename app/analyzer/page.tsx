@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { saveRecommendation } from '@/lib/storageService';
+import { trackEvent } from '@/lib/analytics';
 
 interface FormData {
   soilType: string;
@@ -50,7 +52,6 @@ export default function Analyzer() {
 
       const contentType = response.headers.get('content-type');
       if (!contentType || !contentType.includes('application/json')) {
-        // Removed unused 'text' variable to fix ESLint error
         throw new Error('Server returned HTML instead of JSON. Check your API route setup.');
       }
 
@@ -61,6 +62,20 @@ export default function Analyzer() {
       }
 
       setRecommendation(data.recommendation);
+
+      // Save to Firebase
+      await saveRecommendation({
+        ...formData,
+        recommendation: data.recommendation
+      });
+
+      // Track Analytics (optional)
+      trackEvent('recommendation_generated', {
+        cropType: formData.cropType,
+        soilType: formData.soilType,
+        season: formData.season,
+      });
+
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message || 'Failed to get recommendation');
